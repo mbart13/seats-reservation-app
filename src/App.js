@@ -3,13 +3,12 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Form from './components/Form'
 import { GlobalStyles } from 'styles/GlobalStyles'
 import Room from 'components/Room'
-import Summary from 'components/Summary/Summary'
+import Summary from 'components/Summary'
 
 function App() {
   return (
     <Router>
       <GlobalStyles />
-
       <Switch>
         <Route exact path="/">
           <Form />

@@ -41,16 +41,16 @@ const Room = () => {
     )
   }, [seats])
 
+  const handleClick = () => {
+    history.push('/summary')
+  }
+
   if (isError) {
     return <ErrorFallback />
   }
 
   if (loading) {
     return <Spinner />
-  }
-
-  const handleClick = () => {
-    history.push('/summary')
   }
 
   return (
