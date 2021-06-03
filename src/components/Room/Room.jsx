@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
 import fetchAvailableSeats from 'utils/api'
 import Seat from 'components/Seat/Seat'
 import LegendItem from 'components/LegendItem/LegendItem'
 import { Wrapper, Grid, Menu, Legend, StyledButton } from './Room.styles'
+import { reservationActions } from 'store'
 
 const NUMBER_OF_ROWS = 10
 const NUMBER_OF_COLUMNS = 15
@@ -13,19 +15,24 @@ const grid = new Array(NUMBER_OF_ROWS)
   .map(() => new Array(NUMBER_OF_COLUMNS).fill(null))
 
 const Room = () => {
-  const [seats, setSeats] = useState([])
+  const dispatch = useDispatch()
+  const seats = useSelector(state => state.seats)
 
   useEffect(() => {
     ;(async () => {
       const data = await fetchAvailableSeats()
-      setSeats(() => {
+      const mapData = () => {
+        const roomGrid = { ...grid }
         data.forEach(seat => {
-          grid[seat.cords.x][seat.cords.y] = seat
+          roomGrid[seat.cords.x][seat.cords.y] = seat
         })
         return grid
-      })
+      }
+
+      dispatch(reservationActions.setSeats(mapData()))
+      dispatch(reservationActions.applyUserChoice())
     })()
-  }, [])
+  }, [dispatch])
 
   if (!seats.length) {
     return <div>Loading...</div>
@@ -37,7 +44,14 @@ const Room = () => {
         {seats.map(row => {
           return row.map((seat, index) => {
             if (seat == null) return <div key={index}></div>
-            return <Seat reserved={seat.reserved} key={seat.id} />
+            return (
+              <Seat
+                id={seat.id}
+                reserved={seat.reserved}
+                selected={seat.selected}
+                key={seat.id}
+              />
+            )
           })
         })}
       </Grid>

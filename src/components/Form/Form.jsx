@@ -1,74 +1,33 @@
 import { useState, useEffect } from 'react'
-import styled, { css } from 'styled-components'
 import { useHistory } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
+import { reservationActions } from 'store'
+import { Wrapper, FormField, ErrorMessage } from './Form.styles'
 import Button from 'components/Button/Button'
-
-const Wrapper = styled.div`
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  label {
-    margin-right: 2rem;
-  }
-
-  input[type='number'] {
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-
-    /* Firefox */
-    &[type='number'] {
-      -moz-appearance: textfield;
-    }
-  }
-  input[type='checkbox'] {
-    margin: 0 1rem 0 0;
-  }
-`
-
-const FormField = styled.div`
-  margin-bottom: 1rem;
-
-  ${({ invalid }) =>
-    invalid &&
-    css`
-      input[type='number'] {
-        border: 1px solid red;
-      }
-    `}
-`
-
-const ErrorMessage = styled.p`
-  color: red;
-  text-align: right;
-`
 
 const Form = () => {
   const history = useHistory()
-  const [seatsQty, setSeatsQty] = useState('')
+  const [numberOfSeats, setNumberOfSeats] = useState('')
   const [adjacent, setAdjacent] = useState(false)
   const [invalid, setInvalid] = useState(false)
+  const dispatch = useDispatch()
 
   const handleSubmit = e => {
     e.preventDefault()
-    if (!seatsQty) {
+    if (!numberOfSeats) {
       setInvalid(true)
       return
     }
+    dispatch(reservationActions.registerInput({ numberOfSeats, adjacent }))
     history.push('/room')
   }
 
   useEffect(() => {
-    if (seatsQty) {
+    if (numberOfSeats) {
       setInvalid(false)
     }
-  }, [seatsQty])
+  }, [numberOfSeats])
 
   return (
     <Wrapper>
@@ -78,8 +37,8 @@ const Form = () => {
           <input
             type="number"
             id="liczba-miejsc"
-            value={seatsQty}
-            onChange={e => setSeatsQty(Number(e.target.value))}
+            value={numberOfSeats}
+            onChange={e => setNumberOfSeats(Number(e.target.value))}
           />
           {invalid && <ErrorMessage>proszę wpisać liczbę miejsc</ErrorMessage>}
         </FormField>

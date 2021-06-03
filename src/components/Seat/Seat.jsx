@@ -1,4 +1,7 @@
 import styled, { css } from 'styled-components'
+import { useDispatch } from 'react-redux'
+
+import { reservationActions } from 'store'
 
 const StyledSeat = styled.div`
   height: 3rem;
@@ -13,6 +16,7 @@ const StyledSeat = styled.div`
     reserved &&
     css`
       background-color: #474747;
+      pointer-events: none;
     `}
 
   ${({ selected }) =>
@@ -22,8 +26,19 @@ const StyledSeat = styled.div`
     `}
 `
 
-const Seat = ({ reserved, selected }) => {
-  return <StyledSeat reserved={reserved} selected={selected}></StyledSeat>
+const Seat = ({ id, reserved, selected }) => {
+  const dispatch = useDispatch()
+
+  const handleClick = () => {
+    dispatch(reservationActions.toggleSelection(id))
+  }
+  return (
+    <StyledSeat
+      onClick={handleClick}
+      reserved={reserved}
+      selected={selected}
+    ></StyledSeat>
+  )
 }
 
 export default Seat
