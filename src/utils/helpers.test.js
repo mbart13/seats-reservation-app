@@ -3,12 +3,17 @@ import { findAvailableSeats } from './helpers'
 
 describe('finding available seats feature', () => {
   it('returns first available non-adjacent seats', () => {
-    const result = findAvailableSeats(data, 5, false)
+    const numberOfSeats = 5
+    const adjacent = false
+    const result = findAvailableSeats(data, numberOfSeats, adjacent)
     expect(result).toEqual(['s02', 's03', 's04', 's06', 's07'])
+    expect(result).toHaveLength(numberOfSeats)
   })
 
   it('returns first available adjacent seats when this option is checked', () => {
-    const result = findAvailableSeats(data, 4, true)
+    const numberOfSeats = 4
+    const adjacent = true
+    const result = findAvailableSeats(data, numberOfSeats, adjacent)
     expect(result).toEqual(['s011', 's012', 's013', 's014'])
   })
 
