@@ -1,41 +1,41 @@
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 import fetchAvailableSeats from 'utils/api'
-import Seat from 'components/Seat/Seat'
-import LegendItem from 'components/LegendItem/LegendItem'
-import { Wrapper, Grid, Menu, Legend, StyledButton } from './Room.styles'
+import Seat from 'components/Seat'
+import LegendItem from 'components/LegendItem'
+import Button from 'components/Button'
+import { Wrapper, Grid, Menu, Legend } from './Room.styles'
 import { reservationActions } from 'store'
-
-const NUMBER_OF_ROWS = 10
-const NUMBER_OF_COLUMNS = 15
-
-const grid = new Array(NUMBER_OF_ROWS)
-  .fill(null)
-  .map(() => new Array(NUMBER_OF_COLUMNS).fill(null))
+import { mapData } from 'utils/helpers'
 
 const Room = () => {
   const dispatch = useDispatch()
   const seats = useSelector(state => state.seats)
+  const [isDisabled, setIsDisabled] = useState(false)
+  const history = useHistory()
 
   useEffect(() => {
     ;(async () => {
       const data = await fetchAvailableSeats()
-      const mapData = () => {
-        const roomGrid = { ...grid }
-        data.forEach(seat => {
-          roomGrid[seat.cords.x][seat.cords.y] = seat
-        })
-        return grid
-      }
-
-      dispatch(reservationActions.setSeats(mapData()))
-      dispatch(reservationActions.applyUserChoice())
+      const mappedData = mapData(data)
+      dispatch(reservationActions.loadData(mappedData))
     })()
   }, [dispatch])
 
+  useEffect(() => {
+    setIsDisabled(
+      !seats.flat().filter(seat => seat !== null && seat.selected).length
+    )
+  }, [seats])
+
   if (!seats.length) {
     return <div>Loading...</div>
+  }
+
+  const handleClick = () => {
+    history.push('/summary')
   }
 
   return (
@@ -61,7 +61,9 @@ const Room = () => {
           <LegendItem text="Miejsca zarezerwowane" reserved />
           <LegendItem text="Twój wybór" selected />
         </Legend>
-        <StyledButton>Rezerwuj</StyledButton>
+        <Button small handleClick={handleClick} disabled={isDisabled}>
+          Rezerwuj
+        </Button>
       </Menu>
     </Wrapper>
   )

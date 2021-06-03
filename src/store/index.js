@@ -1,5 +1,5 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit'
-import findAvailableSeats from 'utils/helpers'
+import { findAvailableSeats } from 'utils/helpers'
 
 const initialState = {
   userInput: {
@@ -20,16 +20,13 @@ const reservationsSlice = createSlice({
         adjacent,
       }
     },
-    setSeats(state, action) {
+    loadData(state, action) {
       state.seats = action.payload
-    },
-    applyUserChoice(state) {
       const selectedSeats = findAvailableSeats(
         state.seats,
         state.userInput.numberOfSeats,
-        state.adjacent
+        state.userInput.adjacent
       )
-
       state.seats = state.seats.map(row => {
         return row.map(seat => {
           if (seat !== null && selectedSeats.includes(seat.id)) {

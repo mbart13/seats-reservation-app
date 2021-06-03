@@ -2,20 +2,6 @@ import { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyles = createGlobalStyle`
 
-  :root {
-    --color-bg: #FAFAFA;
-    --color-accent: #D87D4A;
-    --color-accent-hover: #FBAF85;
-    --color-cod-gray: #191919;
-    --color-seashell: #F1F1F1;
-    --color-black: #191919;
-    --color-white: #FFFFFF;
-    --transition: all 0.3s linear;
-    --fw-extra-light: 200;
-    --fw-regular: 400;
-    --fw-medium: 500;
-    --fw-bold: 700;
-  }
 
   /* Box sizing rules */
   html {
@@ -109,6 +95,7 @@ export const GlobalStyles = createGlobalStyle`
     width: 1px !important;
     white-space: nowrap !important;
   }
+
 
   a:focus,
   button:focus {

@@ -1,4 +1,4 @@
-import Seat from 'components/Seat/Seat'
+import Seat from 'components/Seat'
 import styled from 'styled-components'
 
 const Wrapper = styled.li`

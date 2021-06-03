@@ -1,4 +1,4 @@
-const findAvailableSeats = (arr, quantity, adjacent = false) => {
+export const findAvailableSeats = (arr, quantity, adjacent = false) => {
   arr = arr.flat().filter(seat => seat !== null && !seat.reserved)
   if (arr.length < quantity) return
 
@@ -27,4 +27,15 @@ const findAvailableSeats = (arr, quantity, adjacent = false) => {
   return helper.length < quantity ? [] : helper.map(seat => seat.id)
 }
 
-export default findAvailableSeats
+export const mapData = data => {
+  const NUMBER_OF_ROWS = 10
+  const NUMBER_OF_COLUMNS = 15
+  const grid = new Array(NUMBER_OF_ROWS)
+    .fill(null)
+    .map(() => new Array(NUMBER_OF_COLUMNS).fill(null))
+
+  data.forEach(seat => {
+    grid[seat.cords.x][seat.cords.y] = seat
+  })
+  return grid
+}

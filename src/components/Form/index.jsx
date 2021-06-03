@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 
 import { reservationActions } from 'store'
 import { Wrapper, FormField, ErrorMessage } from './Form.styles'
-import Button from 'components/Button/Button'
+import Button from 'components/Button'
 
 const Form = () => {
   const history = useHistory()

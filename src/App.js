@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import Form from './components/Form/Form'
+import Form from './components/Form'
 import { GlobalStyles } from 'styles/GlobalStyles'
-import Room from 'components/Room/Room'
+import Room from 'components/Room'
+import Summary from 'components/Summary/Summary'
 
 function App() {
   return (
@@ -13,6 +14,9 @@ function App() {
         </Route>
         <Route path="/room">
           <Room />
+        </Route>
+        <Route path="/summary">
+          <Summary />
         </Route>
       </Switch>
     </Router>
