@@ -1,6 +1,6 @@
 export const findAvailableSeats = (arr, quantity, adjacent = false) => {
   arr = arr.flat().filter(seat => seat !== null && !seat.reserved)
-  if (arr.length < quantity) return
+  if (arr.length < quantity) return []
 
   let helper = []
   if (!adjacent) {

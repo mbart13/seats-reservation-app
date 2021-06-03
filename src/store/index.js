@@ -7,6 +7,8 @@ const initialState = {
     adjacent: false,
   },
   seats: [],
+  isLoading: false,
+  isError: false,
 }
 
 const reservationsSlice = createSlice({
@@ -20,8 +22,15 @@ const reservationsSlice = createSlice({
         adjacent,
       }
     },
+    setLoading(state, action) {
+      state.isLoading = action.payload
+    },
+    setError(state, action) {
+      state.isError = action.payload
+    },
     loadData(state, action) {
       state.seats = action.payload
+      state.isLoading = false
       const selectedSeats = findAvailableSeats(
         state.seats,
         state.userInput.numberOfSeats,

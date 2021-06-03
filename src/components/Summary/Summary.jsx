@@ -9,11 +9,11 @@ const Heading = styled.h1`
 `
 const StyledList = styled.ul`
   padding: 0;
+  margin-bottom: 3rem;
 `
 
 const StyledListItem = styled.li`
   font-size: 1.4rem;
-  margin-bottom: 3rem;
 `
 
 const StyledParagraph = styled.p`
@@ -34,7 +34,7 @@ const Summary = () => {
         {seats.map(seat => {
           return (
             <StyledListItem key={seat.id}>
-              - rząd {seat.cords.x + 1}, miejsce {seat.cords.y + 1} ({seat.id})
+              - rząd {seat.cords.x}, miejsce {seat.cords.y} ({seat.id})
             </StyledListItem>
           )
         })}

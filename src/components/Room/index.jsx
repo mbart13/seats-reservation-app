@@ -6,21 +6,32 @@ import fetchAvailableSeats from 'utils/api'
 import Seat from 'components/Seat'
 import LegendItem from 'components/LegendItem'
 import Button from 'components/Button'
-import { Wrapper, Grid, Menu, Legend } from './Room.styles'
+import { Wrapper, Grid, Menu, Legend, StyledHeader } from './Room.styles'
 import { reservationActions } from 'store'
 import { mapData } from 'utils/helpers'
+import Spinner from 'components/Spinner'
+import ErrorFallback from 'components/ErrorFallback'
 
 const Room = () => {
   const dispatch = useDispatch()
   const seats = useSelector(state => state.seats)
   const [isDisabled, setIsDisabled] = useState(false)
   const history = useHistory()
+  const loading = useSelector(state => state.isLoading)
+  const isError = useSelector(state => state.isError)
 
   useEffect(() => {
     ;(async () => {
-      const data = await fetchAvailableSeats()
-      const mappedData = mapData(data)
-      dispatch(reservationActions.loadData(mappedData))
+      try {
+        dispatch(reservationActions.setLoading(true))
+        const data = await fetchAvailableSeats()
+        const mappedData = mapData(data)
+        dispatch(reservationActions.loadData(mappedData))
+      } catch (e) {
+        dispatch(reservationActions.setError(true))
+      } finally {
+        dispatch(reservationActions.setLoading(false))
+      }
     })()
   }, [dispatch])
 
@@ -30,8 +41,12 @@ const Room = () => {
     )
   }, [seats])
 
-  if (!seats.length) {
-    return <div>Loading...</div>
+  if (isError) {
+    return <ErrorFallback />
+  }
+
+  if (loading) {
+    return <Spinner />
   }
 
   const handleClick = () => {
@@ -40,6 +55,12 @@ const Room = () => {
 
   return (
     <Wrapper>
+      {!seats.flat().filter(seat => seat !== null && seat.selected).length && (
+        <StyledHeader>
+          Nie znaleźliśmy miejsc spełniających te kryteria. Wybierz z listy
+          poniżej.
+        </StyledHeader>
+      )}
       <Grid>
         {seats.map(row => {
           return row.map((seat, index) => {

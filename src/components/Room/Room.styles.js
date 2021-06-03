@@ -1,7 +1,5 @@
 import styled from 'styled-components'
 
-import Button from 'components/Button'
-
 export const Wrapper = styled.div`
   max-width: 69.375rem;
   margin: 0 auto;
@@ -26,7 +24,7 @@ export const Legend = styled.ul`
   display: flex;
   padding: 0;
 `
-
-export const StyledButton = styled(Button)`
-  width: 10rem;
+export const StyledHeader = styled.h2`
+  text-align: center;
+  margin-bottom: 2rem;
 `
