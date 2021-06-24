@@ -15,7 +15,7 @@ npm run api
 ```
 
 
-To run tests:
+Aby uruchomić testy:
 
 ```
 npm test
