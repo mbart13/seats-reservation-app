@@ -2,16 +2,16 @@
 
 ### Setup
 
-To run this project locally:
+Aby uruchmić projekt lokalnie:
 
 ```
-npm install && npm run api
+npm install && npm start
 ```
 
-open another instance of terminal and run: 
+Następnie, otwórz nową instancję konsoli i wpisz komendę: 
 
 ```
-npm start
+npm run api
 ```
 
 
